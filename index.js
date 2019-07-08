@@ -9,46 +9,113 @@ let randomNumber = Math.round(Math.random() * 10)
 let lives = 5
 let playerName = null
 
-function welcomeMessage (cb) {
-  console.log(`
+// strings returned in console
+const welcome = `
 
   Welcome to
    G U E S S
     T H A T
   N U M B E R
 
-  `)
+`
+const areYouReadyQ = `
+  Are you ready to play (y/n)?
+`
+const notReady = `
+  No worries, take your time!
+`
+const tryAgain = `
+  Sorry, I didn't catch that, let's try again...
+`
+const nameQ = `
+  What is your name?
+`
+const pickANumberQ = `
+  Pick a number between 1-10...
+`
+const playAgainQ = `
+  Do you want to play again (y/n)?
+`
+const wrongGuess = `
+  Wup wuh. That's not it.
+`
+
+// functions that return strings in console
+function greetings(name) {
+  return `
+  Greetings ${name}!
+  `
+}
+
+function livesLeft(numberOfLives) {
+  return `
+  You have ${numberOfLives} lives remaining.
+  `
+}
+
+function goAgain(name) {
+  return `
+  Let's go ${name}!
+  `
+}
+
+function youWin(name, number) {
+  return `
+
+  Yusssss!
+
+  ${name} is the champion!
+
+  ${number} is the correct answer!
+
+  `
+}
+
+function gameOver(name) {
+  return `
+
+  Oh no ${name}, it's
+
+  G A M E
+  O V E R
+
+  `
+}
+
+// game functionality
+function welcomeMessage (cb) {
+  console.log(welcome)
   cb && cb()
 }
 
-function readyToPlay () {
-  rl.question("\n Are you ready to play (y/n)?\n", (answer) => {
+function readyToPlay() {
+  rl.question(areYouReadyQ, (answer) => {
     if (answer == 'y') {
       askName()
     } else if (answer == 'n') {
-      console.log("\n No worries, take your time!\n")
+      console.log(notReady)
       readyToPlay()
     } else {
-      console.log("\n Sorry, I didn't catch that, let's try again...")
+      console.log(tryAgain)
       readyToPlay()
     }
   })
 }
 
 function askName () {
-  rl.question("\n What is your name?\n", (answer) => {
+  rl.question(nameQ, (answer) => {
     playerName = answer
-    console.log(`\n Greetings ${playerName}!`)
+    console.log(greetings(playerName))
     livesRemaining()
   })
 }
 
 function makeGuess () {
-  rl.question("\n Pick a number between 1-10\n", (answer) => {
+  rl.question(pickANumberQ, (answer) => {
     if (answer == randomNumber) {
       winGame()
     } else if (lives > 1) {
-      console.log(`\n Wup wuh. That's not it.`)
+      console.log(wrongGuess)
       lives = lives - 1
       livesRemaining()
     } else {
@@ -58,33 +125,27 @@ function makeGuess () {
 }
 
 function livesRemaining () {
-  console.log(`\n You have ${lives} lives remaining.`)
+  console.log(livesLeft(lives))
   makeGuess()
 }
 
 function winGame () {
-  console.log(`\n\n Yusssss! \n\n ${playerName} is the champion! \n\n ${randomNumber} is the correct answer!\n\n\n`)
+  console.log(youWin(playerName, randomNumber))
   playAgain()
 }
 
 function endGame () {
-  console.log(`\n Oh no ${playerName}, it's
-
-  G A M E
-  O V E R
-
-
-  `)
+  console.log(gameOver(playerName))
   playAgain()
 }
 
 function playAgain () {
-  rl.question('\nDo you want to play again (y/n)?\n', (answer) => {
+  rl.question(playAgainQ, (answer) => {
     if (answer == 'y') {
       console.clear()
       randomNumber = Math.round(Math.random() * 10)
       lives = 5
-      console.log(`\n Let's go ${playerName}!`)
+      console.log(goAgain(playerName))
       welcomeMessage(makeGuess)
     } else if (answer == 'n') {
       console.clear()
@@ -92,7 +153,7 @@ function playAgain () {
       lives = 5
       welcomeMessage(readyToPlay)
     } else {
-      console.log("I didn't catch that, let's try again...")
+      console.log(tryAgain)
       playAgain()
     }
   })
