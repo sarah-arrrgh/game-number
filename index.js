@@ -92,7 +92,7 @@ function playAgain () {
       rl.close()
     } else {
       console.log("I didn't catch that, let's try again...")
-      return playAgain()
+      playAgain()
     }
   })
 }
