@@ -11,14 +11,17 @@ let playerName = null
 
 console.clear()
 
-console.log(`
+function welcomeMessage (cb) {
+  console.log(`
 
   Welcome to
    G U E S S
     T H A T
   N U M B E R
 
-`)
+  `)
+  cb && cb()
+}
 
 function readyToPlay () {
   rl.question("\n Are you ready to play (y/n)?\n", (answer) => {
@@ -94,4 +97,4 @@ function playAgain () {
   })
 }
 
-readyToPlay()
+welcomeMessage(readyToPlay)
