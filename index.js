@@ -9,6 +9,8 @@ let randomNumber = Math.round(Math.random() * 10)
 let lives = 5
 let playerName = null
 
+console.clear()
+
 console.log(`
 
   Welcome to
@@ -23,7 +25,7 @@ function readyToPlay () {
     if (answer == 'y') {
       askName()
     } else if (answer == 'n') {
-      console.log("No worries, take your time!")
+      console.log("\n No worries, take your time!\n")
       readyToPlay()
     } else {
       console.log("\n Sorry, I didn't catch that, let's try again...")
@@ -78,8 +80,10 @@ function endGame () {
 function playAgain () {
   rl.question('\nDo you want to play again (y/n)?\n', (answer) => {
     if (answer == 'y') {
+      console.clear()
       randomNumber = Math.round(Math.random() * 10)
       lives = 5
+      console.log(`\n Welcome back ${playerName}!`)
       makeGuess()
     } else if (answer == 'n') {
       rl.close()
