@@ -9,9 +9,7 @@ let randomNumber = Math.round(Math.random() * 10)
 let lives = 5
 let playerName = null
 
-console.clear()
-
-function welcomeMessage (cb) {
+function welcomeMessage (cb1, cb2, cb3, cb4) {
   console.log(`
 
   Welcome to
@@ -20,29 +18,34 @@ function welcomeMessage (cb) {
   N U M B E R
 
   `)
-  cb && cb()
+  cb1 && cb1(cb2, cb3, cb4)
 }
 
-function readyToPlay () {
+function readyToPlay (cb2, cb3, cb4) {
   rl.question("\n Are you ready to play (y/n)?\n", (answer) => {
     if (answer == 'y') {
-      askName()
+      cb2 && cb2(cb3, cb4)
     } else if (answer == 'n') {
       console.log("\n No worries, take your time!\n")
-      readyToPlay()
+      readyToPlay(cb2, cb3, cb4)
     } else {
       console.log("\n Sorry, I didn't catch that, let's try again...")
-      readyToPlay()
+      readyToPlay(cb2, cb3, cb4)
     }
   })
 }
 
-function askName () {
+function askName (cb3, cb4) {
   rl.question("\n What is your name?\n", (answer) => {
     playerName = answer
     console.log(`\n Greetings ${playerName}!`)
-    livesRemaining()
+    cb3 && cb3(cb4)
   })
+}
+
+function livesRemaining(cb4) {
+  console.log(`\n You have ${lives} lives remaining.`)
+  cb4 && cb4()
 }
 
 function makeGuess () {
@@ -52,16 +55,11 @@ function makeGuess () {
     } else if (lives > 1) {
       console.log(`\n Wup wuh. That's not it.`)
       lives = lives - 1
-      livesRemaining()
+      livesRemaining(makeGuess)
     } else {
       endGame()
     }
   })
-}
-
-function livesRemaining () {
-  console.log(`\n You have ${lives} lives remaining.`)
-  makeGuess()
 }
 
 function winGame () {
@@ -86,8 +84,8 @@ function playAgain () {
       console.clear()
       randomNumber = Math.round(Math.random() * 10)
       lives = 5
-      console.log(`\n Welcome back ${playerName}!`)
-      makeGuess()
+      console.log(`\n Let's go ${playerName}!`)
+      welcomeMessage(makeGuess)
     } else if (answer == 'n') {
       rl.close()
     } else {
@@ -97,4 +95,5 @@ function playAgain () {
   })
 }
 
-welcomeMessage(readyToPlay)
+console.clear()
+welcomeMessage(readyToPlay, askName, livesRemaining, makeGuess)
