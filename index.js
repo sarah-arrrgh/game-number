@@ -9,8 +9,6 @@ let randomNumber = Math.round(Math.random() * 10)
 let lives = 5
 let playerName = null
 
-console.clear()
-
 function welcomeMessage (cb) {
   console.log(`
 
@@ -97,4 +95,5 @@ function playAgain () {
   })
 }
 
+console.clear()
 welcomeMessage(readyToPlay)
