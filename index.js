@@ -84,8 +84,8 @@ function playAgain () {
       console.clear()
       randomNumber = Math.round(Math.random() * 10)
       lives = 5
-      console.log(`\n Welcome back ${playerName}!`)
-      makeGuess()
+      console.log(`\n Let's go ${playerName}!`)
+      welcomeMessage(makeGuess)
     } else if (answer == 'n') {
       rl.close()
     } else {
